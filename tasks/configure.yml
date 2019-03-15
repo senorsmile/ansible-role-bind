@@ -1,0 +1,8 @@
+---
+- name: Manage primary named.conf
+  template:
+    src: named.conf.j2
+    dest: "{{ named_conf }}"
+    owner:  root
+    group:  root
+    mode:   '0750'

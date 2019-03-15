@@ -1,3 +1,5 @@
 ---
 bind9: bind
 bind9_utils: bind-utils
+named_conf: '/etc/named.conf'
+named_dir: '/var/named'
