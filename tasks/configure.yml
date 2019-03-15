@@ -30,4 +30,19 @@
     mode:   '0640'
     backup:  yes # TODO: change to no after role dev done
   loop:
-    - named.conf.options
+    - named.conf.local
+#    - named.conf.acls
+#    - named.conf.logging
+#    - named.conf.servers
+#    - named.conf.views
+
+- name: Transfer bind db resource records
+  template:
+    src:    "db.resource.j2"
+    dest:   "{{   }}/db.{{ item | extract_dict_from_list | json_query('name') }}"
+    owner:  root
+    group:  root
+    mode:   0640
+  with_items:
+    - "{{ bind_dns_records }}"
+  register: xfer_db_rr

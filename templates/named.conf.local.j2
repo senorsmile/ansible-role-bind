@@ -18,24 +18,6 @@ options {
   listen-on-v6 port 53 { ::1; };
 {#  #}{% endif %}
 
-{#  #}{% if bind_dns_var_dir is defined %}  
-  directory "{{ bind_dns_var_dir }}";
-{#  #}{% else %}
-  directory "{{ named_var_dir }}";
-{#  #}{% endif %}
-
-auth-nxdomain no;    # conform to RFC1035
-
-  /*
-   - If you are building an AUTHORITATIVE DNS server, do NOT enable recursion.
-   - If you are building a RECURSIVE (caching) DNS server, you need to enable
-     recursion.
-   - If your recursive DNS server has a public IP address, you MUST enable access
-     control to limit queries to your legitimate users. Failing to do so will
-     cause your server to become part of large scale DNS amplification
-     attacks. Implementing BCP38 within your network would greatly
-     reduce such attack surface
-  */
 {#  #}{% if bind_dns_recursion is defined %}  
   recursion {%if bind_dns_recursion %}yes{% else %}no{% endif %};
 {#  #}{% endif %}
