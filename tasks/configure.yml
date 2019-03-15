@@ -5,7 +5,7 @@
     dest:   "{{ named_conf }}"
     owner:  'root'
     group:  "{{ bind9_group }}"
-    mode:   '0750'
+    mode:   '0640'
     backup:  yes # TODO: change to no after role dev done
 
 - name: Manage secondary config files
@@ -14,7 +14,7 @@
     dest:   "{{ named_dir}}/{{ item }}"
     owner:  'root'
     group:  "{{ bind9_group }}"
-    mode:   '0750'
+    mode:   '0640'
     backup:  yes # TODO: change to no after role dev done
   loop:
     - named.conf.options
