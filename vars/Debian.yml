@@ -5,3 +5,4 @@ bind9_group: bind
 named_conf: '/etc/bind/named.conf'
 named_conf_options: '/etc/bind/named.conf.options'
 named_dir: '/etc/bind'
+named_var_dir: '/var/cache/bind'

@@ -4,3 +4,4 @@ bind9_utils: bind-utils
 bind9_group: named
 named_conf: '/etc/named.conf'
 named_dir: '/etc/named'
+named_var_dir: '/var/named'

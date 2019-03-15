@@ -18,6 +18,14 @@ options {
   listen-on-v6 port 53 { ::1; };
 {#--#}{% endif %}
 
+
+{#--#}{% if bind_dns_var_dir is defined %}  
+  directory "{{ bind_dns_var_dir }}"
+{#--#}{% else %}
+  directory "{{ named_var_dir }}"
+{#--#}{% endif %}
+
+
 {#--#}{% if bind_dns_recursion is defined %}  
   recursion {%if bind_dns_recursion %}yes{% else %}no{% endif %};
 {#--#}{% endif %}
