@@ -7,7 +7,7 @@
 options { 
 {#  #}
 {#  #}{% if bind_dns_listen is defined %}  
-  listen-on port 53 { 127.0.0.1; {{ bind_dns_listen }}  };
+  listen-on port 53 { 127.0.0.1; {{ bind_dns_listen }}  }; {# set to `any;` for 0.0.0.0/0 #}
 {#  #}{% else %}
   listen-on port 53 { 127.0.0.1; };
 {#  #}{% endif %}
@@ -24,6 +24,18 @@ options {
   directory "{{ named_var_dir }}";
 {#  #}{% endif %}
 
+auth-nxdomain no;    # conform to RFC1035
+
+  /*
+   - If you are building an AUTHORITATIVE DNS server, do NOT enable recursion.
+   - If you are building a RECURSIVE (caching) DNS server, you need to enable
+     recursion.
+   - If your recursive DNS server has a public IP address, you MUST enable access
+     control to limit queries to your legitimate users. Failing to do so will
+     cause your server to become part of large scale DNS amplification
+     attacks. Implementing BCP38 within your network would greatly
+     reduce such attack surface
+  */
 {#  #}{% if bind_dns_recursion is defined %}  
   recursion {%if bind_dns_recursion %}yes{% else %}no{% endif %};
 {#  #}{% endif %}
@@ -59,8 +71,8 @@ options {
 {#  #}{% endif %}
 
 {#  #}{% if bind_dns_dnssec_validation is defined %}  
-  dnssec-validation {%if bind_dns_dnssec_validation %}yes{% else %}no{% endif %};
   dnssec-enable {%if bind_dns_dnssec_validation %}yes{% else %}no{% endif %};
+  dnssec-validation {%if bind_dns_dnssec_validation %}yes{% else %}no{% endif %};
 {#  #}{% endif %}
 
 {#  #}{% if bind_dns_filter_aaaa_on_v4 is defined %}  

@@ -1,12 +1,25 @@
 ---
-- name: Manage primary named.conf
-  template:
-    src:    'named.conf.j2'
-    dest:   "{{ named_conf }}"
-    owner:  'root'
-    group:  "{{ bind9_group }}"
-    mode:   '0640'
-    backup:  yes # TODO: change to no after role dev done
+#- name: Manage primary named.conf
+#  template:
+#    src:    'named.conf.j2'
+#    dest:   "{{ named_conf }}"
+#    owner:  'root'
+#    group:  "{{ bind9_group }}"
+#    mode:   '0640'
+#    backup:  yes # TODO: change to no after role dev done
+
+- name: Include files in named.conf
+  blockinfile:
+    backup: yes
+    marker: '// ANSIBLE MANAGED BLOCK'
+    dest: "{{ named_conf }}"
+    block: |
+      include "{{ item }}";
+  loop:
+    - "/etc/bind/named.conf.acls"
+    - "/etc/bind/named.conf.logging"
+    - "/etc/bind/named.conf.servers"
+    - "/etc/bind/named.conf.views"
 
 - name: Manage secondary config files
   template:
