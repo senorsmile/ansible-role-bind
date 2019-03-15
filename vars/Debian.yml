@@ -1,5 +1,6 @@
 ---
 bind9: bind9
 bind9_utils: bind9utils
-named_conf: '/etc/bind/named.conf.options'
+named_conf: '/etc/bind/named.conf'
+named_conf_options: '/etc/bind/named.conf.options'
 named_dir: '/etc/bind'
