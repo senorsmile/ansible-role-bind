@@ -4,7 +4,8 @@
 {# ------------------ #}
 {# OPTIONS            #}
 {# ------------------ #}
-options {
+options { 
+
 {#--#}{% if bind_dns_listen is defined %}  
   listen-on {{ bind_dns_listen }};
 {#--#}{% else %}
