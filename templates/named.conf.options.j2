@@ -5,78 +5,78 @@
 {# OPTIONS            #}
 {# ------------------ #}
 options { 
-
-{#  #}{% if bind_dns_listen is defined %}  
+{#  #}
+{#--#}{% if bind_dns_listen is defined %}  
   listen-on {{ bind_dns_listen }};
-{#  #}{% else %}
+{#--#}{% else %}
   listen-on port 53 { 127.0.0.1; };
-{#  #}{% endif %}
+{#--#}{% endif %}
 
-{#  #}{% if bind_dns_recursion is defined %}  
+{#--#}{% if bind_dns_recursion is defined %}  
   recursion {%if bind_dns_recursion %}yes{% else %}no{% endif %};
-{#  #}{% endif %}
+{#--#}{% endif %}
 
-{#  #}{% if bind_dns_allow_recursion is defined %}  
+{#--#}{% if bind_dns_allow_recursion is defined %}  
   allow-recursion {
-{# -- #}{% for acl in bind_dns_allow_recursion %}    
+{#----#}{% for acl in bind_dns_allow_recursion %}    
     "{{ acl }}";
-{# -- #}{% endfor %}
+{#----#}{% endfor %}
   };
 
   recursive-clients {% if bind_dns_recursive_clients is defined %}{{ bind_dns_recursive_clients }}{% else %}1000{% endif %} ; 
-{#  #}{% endif %}
+{#--#}{% endif %}
 
-{#  #}{% if bind_dns_allow_query is defined %}  
+{#--#}{% if bind_dns_allow_query is defined %}  
   allow-query {
-{# -- #}{% for acl in bind_dns_allow_query %}    
+{#----#}{% for acl in bind_dns_allow_query %}    
     "{{ acl }}";
-{# -- #}{% endfor %}
+{#----#}{% endfor %}
   };
-{#  #}{% endif %}
+{#--#}{% endif %}
 
-{#  #}{% if bind_dns_allow_query_cache is defined %}  
+{#--#}{% if bind_dns_allow_query_cache is defined %}  
   allow-query-cache {
-{# -- #}{% for acl in bind_dns_allow_query_cache %}    
+{#----#}{% for acl in bind_dns_allow_query_cache %}    
     "{{ acl }}";
-{# -- #}{% endfor %}
+{#----#}{% endfor %}
   };
-{#  #}{% endif %}
+{#--#}{% endif %}
 
-{#  #}{% if bind_dns_auth_nxdomain is defined %}  
+{#--#}{% if bind_dns_auth_nxdomain is defined %}  
   auth-nxdomain {%if bind_dns_auth_nxdomain %}yes{% else %}no{% endif %};
-{#  #}{% endif %}
+{#--#}{% endif %}
 
-{#  #}{% if bind_dns_dnssec_validation is defined %}  
+{#--#}{% if bind_dns_dnssec_validation is defined %}  
   dnssec-validation {%if bind_dns_dnssec_validation %}yes{% else %}no{% endif %};
   dnssec-enable {%if bind_dns_dnssec_validation %}yes{% else %}no{% endif %};
-{#  #}{% endif %}
+{#--#}{% endif %}
 
-{#  #}{% if bind_dns_filter_aaaa_on_v4 is defined %}  
+{#--#}{% if bind_dns_filter_aaaa_on_v4 is defined %}  
   filter-aaaa-on-v4 {%if bind_dns_filter_aaaa_on_v4 %}yes{% else %}no{% endif %};
-{#  #}{% endif %}
+{#--#}{% endif %}
 
-{#  #}{% if bind_dns_max_cache_size is defined %}  
+{#--#}{% if bind_dns_max_cache_size is defined %}  
   max-cache-size {{ bind_dns_max_cache_size }};
-{#  #}{% endif %}
+{#--#}{% endif %}
 
-{#  #}{% if bind_dns_directory is defined %}  
+{#--#}{% if bind_dns_directory is defined %}  
   directory "{{ bind_dns_directory }}";
-{#  #}{% endif %}
+{#--#}{% endif %}
 
-{#  #}{% if bind_dns_memstatistics_file is defined %}  
+{#--#}{% if bind_dns_memstatistics_file is defined %}  
   memstatistics-file "{{ bind_dns_memstatistics_file }}";
-{#  #}{% endif %}
+{#--#}{% endif %}
 
-{#  #}{% if bind_dns_forwarders is defined %}  
+{#--#}{% if bind_dns_forwarders is defined %}  
   forwarders { 
-{# -- #}{% for forwarder in bind_dns_forwarders %} 
+{#----#}{% for forwarder in bind_dns_forwarders %} 
     {{ forwarder }};
-{# -- #}{% endfor %} 
+{#----#}{% endfor %} 
   };
-{#  #}{% endif %}
+{#--#}{% endif %}
 
-{#  #}{% if bind_dns_overcache is defined and bind_dns_overcache %}  
+{#--#}{% if bind_dns_overcache is defined and bind_dns_overcache %}  
   overcache {{ bind_dns_overcache['force_ttl'] }} {{ bind_dns_overcache['record_hold_time'] }};
-{#  #}{% endif %}
-
+{#--#}{% endif %}
+{#  #}
 };
