@@ -7,13 +7,13 @@
 options { 
 {#  #}
 {#  #}{% if bind_dns_listen is defined %}  
-  listen-on {{ bind_dns_listen }};
+  listen-on port 53 { 127.0.0.1; {{ bind_dns_listen }}  };
 {#  #}{% else %}
   listen-on port 53 { 127.0.0.1; };
 {#  #}{% endif %}
 
 {#  #}{% if bind_dns_listen_v6 is defined %}  
-  listen-on-v6 {{ bind_dns_listen_v6 }};
+  listen-on-v6 port 53 { ::1; {{ bind_dns_listen_v6 }}  };
 {#  #}{% else %}
   listen-on-v6 port 53 { ::1; };
 {#  #}{% endif %}
