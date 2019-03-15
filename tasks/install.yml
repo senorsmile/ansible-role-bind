@@ -1,6 +1,6 @@
 ---
 - name: Install bind
   package:
-    name: bind
+    name: "{{ bind9 }}"
     state: present
 
