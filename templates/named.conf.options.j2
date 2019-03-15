@@ -12,6 +12,12 @@ options {
   listen-on port 53 { 127.0.0.1; };
 {#--#}{% endif %}
 
+{#--#}{% if bind_dns_listen_v6 is defined %}  
+  listen-on-v6 {{ bind_dns_listen_v6 }};
+{#--#}{% else %}
+  listen-on-v6 port 53 { ::1; };
+{#--#}{% endif %}
+
 {#--#}{% if bind_dns_recursion is defined %}  
   recursion {%if bind_dns_recursion %}yes{% else %}no{% endif %};
 {#--#}{% endif %}
