@@ -58,11 +58,11 @@ options {
   max-cache-size {{ bind_dns_max_cache_size }};
 {#--#}{% endif %}
 
-{#--#}{% if bind_dns_directory %}  
+{#--#}{% if bind_dns_directory is defined %}  
   directory "{{ bind_dns_directory }}";
 {#--#}{% endif %}
 
-{#--#}{% if bind_dns_memstatistics_file %}  
+{#--#}{% if bind_dns_memstatistics_file is defined %}  
   memstatistics-file "{{ bind_dns_memstatistics_file }}";
 {#--#}{% endif %}
 
