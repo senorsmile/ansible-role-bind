@@ -4,7 +4,7 @@
     src:    'named.conf.j2'
     dest:   "{{ named_conf }}"
     owner:  'root'
-    group:  'root'
+    group:  "{{ bind9_group }}"
     mode:   '0750'
     backup:  yes # TODO: change to no after role dev done
 
@@ -13,7 +13,7 @@
     src:    "{{ item }}.j2"
     dest:   "{{ named_dir}}/{{ item }}"
     owner:  'root'
-    group:  'root'
+    group:  "{{ bind9_group }}"
     mode:   '0750'
     backup:  yes # TODO: change to no after role dev done
   loop:
