@@ -1,0 +1,6 @@
+---
+- name: Install bind
+  package:
+    name: bind
+    state: present
+

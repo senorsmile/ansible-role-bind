@@ -7,6 +7,8 @@ ansible role to manage bind server
 Requirements
 ------------
 
+ansible >= 2.5
+
 Role Variables
 --------------
 
