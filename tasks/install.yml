@@ -1,6 +1,9 @@
 ---
 - name: Install bind
   package:
-    name: "{{ bind9 }}"
+    name: "{{ item }}"
     state: present
+  loop:
+    - "{{ bind9 }}"
+    - "{{ bind9_utils }}"
 
