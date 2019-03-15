@@ -1,9 +1,20 @@
 ---
 - name: Manage primary named.conf
   template:
-    src: named.conf.j2
-    dest: "{{ named_conf }}"
-    owner:  root
-    group:  root
+    src:    'named.conf.j2'
+    dest:   "{{ named_conf }}"
+    owner:  'root'
+    group:  'root'
     mode:   '0750'
-    backup: yes # TODO: change to no after role dev done
+    backup:  yes # TODO: change to no after role dev done
+
+- name: Manage secondary config files
+  template:
+    src:    "{{ item }}.j2"
+    dest:   "{{ named_dir}}/{{ item }}"
+    owner:  'root'
+    group:  'root'
+    mode:   '0750'
+    backup:  yes # TODO: change to no after role dev done
+  loop:
+    - named.conf.options
