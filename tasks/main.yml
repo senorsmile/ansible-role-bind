@@ -1,0 +1,27 @@
+---
+- debug:
+    msg: |
+      "Distro: {{ ansible_distribution }} Version: {{ ansible_distribution_version }}"
+
+- fail:
+    msg: |
+      ************************
+      **** UNSUPPORTED OS ****
+      ************************
+  when:
+    not (
+      (
+        ( ansible_distribution == 'Ubuntu')
+        and
+        ( ansible_distribution_version >= '14.04' )
+        and
+        ( ansible_distribution_version < '18.10' )
+      )
+      or
+      (
+        ( ansible_distribution == 'Debian')
+        and
+        ( ansible_distribution_major_version == '9' )
+      )
+    )
+
