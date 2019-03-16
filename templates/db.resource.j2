@@ -1,0 +1,32 @@
+;Do not make manual changes, as they will just be overwritten.
+$TTL	{% if 'ttl' in item %}{{ item['ttl'] }}{% else %}1d{% endif %}
+
+$ORIGIN {{ item['name'] }}
+@	IN	SOA	ns1	hostmaster (
+                     2019031516         ; serial number = date+hour
+                             7d         ; refresh
+                            24h         ; update retry
+                             4w         ; expiry
+                             7d )       ; Minimum (Negative Cache TTL)
+;
+
+{# 
+ # var "item" below is passed from the template module in main.yml 
+-#}
+
+
+
+@	IN	NS	ns1.{% if 'orig' in item %}{{ item['orig'] }}{% else %}{{ item['name'] }}{% endif %}.
+
+ns1	IN	A	{% if 'ns1' in item %}{{ item['ns1'] }}{% else %}{{ ansible_host }}{% endif %} 
+
+{% if 'addr' in item %}@	IN	A	{{ item['addr'] }}{% endif %}
+
+{% if 'records' in item %}
+{% for record in item['records'] %}
+
+{{ record['name'] }}	{% if 'ttl' in record %}{{ record['ttl'] }}{% endif %}	IN	{{ record['type'] }}	{{ record['addr'] }}
+
+
+{% endfor %}
+{% endif %}

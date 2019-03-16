@@ -9,40 +9,56 @@
 #    backup:  yes # TODO: change to no after role dev done
 
 - name: Include files in named.conf
-  blockinfile:
-    backup: yes
-    marker: '// ANSIBLE MANAGED BLOCK'
+  lineinfile:
     dest: "{{ named_conf }}"
-    block: |
-      include "{{ item }}";
+    regexp: '^include "{{ item.file }}";'
+    state: "{{ item.state | default('present') }}"
+    line: >
+      include "{{ item.file }}";
   loop:
-    - "/etc/bind/named.conf.acls"
-    - "/etc/bind/named.conf.logging"
-    - "/etc/bind/named.conf.servers"
-    - "/etc/bind/named.conf.views"
+    - file: /etc/bind/named.conf.acls
+      state: absent
+    - file: /etc/bind/named.conf.logging
+      state: absent
+    - file: /etc/bind/named.conf.servers
+      state: absent
+    - file: /etc/bind/named.conf.views
+      state: absent
 
 - name: Manage secondary config files
   template:
     src:    "{{ item }}.j2"
     dest:   "{{ named_dir}}/{{ item }}"
-    owner:  'root'
+    owner:  root
     group:  "{{ bind9_group }}"
     mode:   '0640'
     backup:  yes # TODO: change to no after role dev done
   loop:
-    - named.conf.local
+    - named.conf.options
 #    - named.conf.acls
 #    - named.conf.logging
 #    - named.conf.servers
 #    - named.conf.views
 
+- debug:
+    var: item.name
+  loop: "{{ bind_dns_records | flatten }}"
+
+
 - name: Transfer bind db resource records
   template:
     src:    "db.resource.j2"
-    dest:   "{{   }}/db.{{ item | extract_dict_from_list | json_query('name') }}"
+    #dest:   "{{ named_dir }}/db.{{ item | extract_dict_from_list | json_query('name') }}"
+    dest:   "{{ named_dir }}/db.{{ item.name }}"
     owner:  root
-    group:  root
-    mode:   0640
-  with_items:
-    - "{{ bind_dns_records }}"
+    group:  "{{ bind9_group }}"
+    mode:   '0640'
+    backup:  yes # TODO: change to no after role dev done
+  loop: "{{ bind_dns_records | flatten }}"
+  when:
+    - bind_dns_records is defined
   register: xfer_db_rr
+
+#- name: Ensure bind daemon started # TODO
+
+# TODO: add handlers to restart on change
